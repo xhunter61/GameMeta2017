@@ -9,13 +9,8 @@ contract NameRegistry {
    mapping(string => ContractDetails) registry;
 
    function registerName(string name, address addr, uint16 ver) returns (bool) {
-      // versions should start from 1
-      require(ver >= 1);
-      
       ContractDetails memory info = registry[name];
       require(info.owner == msg.sender);
-      // create info if it doesn't exist in the registry
-
        if (info.contractAddress == address(0)) {
           info = ContractDetails({
              owner: msg.sender,
@@ -26,8 +21,6 @@ contract NameRegistry {
           info.version = ver;
           info.contractAddress = addr;
        }
-
-       // update record in the registry
        registry[name] = info;
        return true;
 
